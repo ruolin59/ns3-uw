@@ -116,6 +116,13 @@ UanMacAloha::SetForwardUpCb (Callback<void, Ptr<Packet>, const UanAddress& > cb)
 {
   m_forUpCb = cb;
 }
+
+void
+UanMacAloha::SetPromiscCb (Callback<void, Ptr<Packet>, const UanAddress&, const UanAddress&> cb)
+{
+  m_promiscCb = cb;
+}
+
 void
 UanMacAloha::AttachPhy (Ptr<UanPhy> phy)
 {
@@ -135,6 +142,10 @@ UanMacAloha::RxPacketGood (Ptr<Packet> pkt, double sinr, UanTxMode txMode)
     {
       m_forUpCb (pkt, header.GetSrc ());
     }
+  if (!m_promiscCb.IsNull())
+  {
+     m_promiscCb (pkt, header.GetSrc(), header.GetDest());
+  }
 
 }
 

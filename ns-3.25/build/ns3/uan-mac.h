@@ -87,6 +87,17 @@ public:
   virtual void SetForwardUpCb (Callback<void, Ptr<Packet>, const UanAddress&> cb) = 0;
 
   /**
+   * Set the callback for promic mode forward packets up to higher layers.
+   * 
+   * \param cb The callback.
+   * \pname{packet} The packet.
+   * \pname{address} The source address.
+   * \pname{address} The destination address.
+   * \pname{enum} The packet type.
+   */
+  virtual void SetPromiscCb (Callback<void, Ptr<Packet>, const UanAddress&, const UanAddress&> cb);
+
+  /**
    * Attach PHY layer to this MAC.
    *
    * Some MACs may be designed to work with multiple PHY

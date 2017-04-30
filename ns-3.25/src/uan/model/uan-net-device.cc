@@ -237,7 +237,8 @@ UanNetDevice::GetAddress () const
 
   Mac48Address* returnAddr = new Mac48Address(buff);
   return *returnAddr; */
-  return m_mac->GetAddress ();
+  //return m_at.getM48(UanAddress::ConvertFrom (m_mac->GetAddress()));
+  return m_mac->GetMac48Address ();
 }
 
 bool
@@ -393,10 +394,10 @@ UanNetDevice::SetPromiscReceiveCallback (PromiscReceiveCallback cb)
 }
 
 void
-UanNetDevice::PromiscForward (Ptr<Packet> pkt, const UanAddress& src, const UanAddress& dest)
+UanNetDevice::PromiscForward (Ptr<Packet> pkt, const Address& src, const Address& dest)
 {
   NS_LOG_DEBUG ("Promiscuously forwarding packet up to application");
-  m_rxLogger (pkt, src);
+  //m_rxLogger (pkt, src);
   m_promiscCallback (this, pkt, 0, src, dest, NetDevice::PACKET_BROADCAST);
 }
 
@@ -410,8 +411,8 @@ UanNetDevice::SupportsSendFrom (void) const
 void
 UanNetDevice::SetAddress (Address address)
 {
-  NS_ASSERT_MSG (0, "Tried to set MAC address with no MAC");
-  m_mac->SetAddress (UanAddress::ConvertFrom (address));
+  //NS_ASSERT_MSG (0, "Tried to set MAC address with no MAC");
+  m_mac->SetAddress (address);
 }
 
 void

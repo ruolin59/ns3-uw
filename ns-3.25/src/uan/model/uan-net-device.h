@@ -25,6 +25,7 @@
 #include "ns3/pointer.h"
 #include "ns3/traced-callback.h"
 #include "uan-address.h"
+#include "uan-address-translator.h"
 #include <list>
 
 namespace ns3 {
@@ -173,7 +174,7 @@ private:
    * \param dest The destination address.
    * \param type The packet type.
    */
-  virtual void PromiscForward (Ptr<Packet> pkt, const UanAddress &src, const UanAddress &dest);
+  virtual void PromiscForward (Ptr<Packet> pkt, const Address &src, const Address &dest);
   
   /** \return The channel attached to this device. */
   Ptr<UanChannel> DoGetChannel (void) const;

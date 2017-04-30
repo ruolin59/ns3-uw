@@ -25,7 +25,6 @@
 #include "ns3/object.h"
 #include "ns3/packet.h"
 
-#include "ns3/address.h"
 #include "ns3/nstime.h"
 #include "ns3/ptr.h"
 
@@ -62,11 +61,18 @@ public:
   virtual Address GetAddress (void) = 0;
 
   /**
+   * Get the MAC48 compatible Address.
+   *
+   * \return MAC48 compatible Address.
+   */
+  virtual Address GetMac48Address (void);
+
+  /**
    * Set the address.
    *
    * \param addr UanAddress for this MAC.
    */
-  virtual void SetAddress (UanAddress addr) = 0;
+  virtual void SetAddress (Address addr) = 0;
 
   /**
    * Enqueue packet to be transmitted.
@@ -95,7 +101,7 @@ public:
    * \pname{address} The destination address.
    * \pname{enum} The packet type.
    */
-  virtual void SetPromiscCb (Callback<void, Ptr<Packet>, const UanAddress&, const UanAddress&> cb);
+  virtual void SetPromiscCb (Callback<void, Ptr<Packet>, const Address&, const Address&> cb);
 
   /**
    * Attach PHY layer to this MAC.

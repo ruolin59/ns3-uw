@@ -34,9 +34,14 @@ TypeId UanMac::GetTypeId (void)
 }
 
 
-void UanMac::SetPromiscCb (Callback<void, Ptr<Packet>, const UanAddress&, const UanAddress&> cb)
+void UanMac::SetPromiscCb (Callback<void, Ptr<Packet>, const Address&, const Address&> cb)
 {
     return;
+}
+
+Address UanMac::GetMac48Address(void){
+  Address addr;
+  return addr;
 }
 
 

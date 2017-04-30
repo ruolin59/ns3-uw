@@ -419,8 +419,10 @@ TapBridge::CreateTap (void)
       // The MAC address should also already be assigned and waiting for us in
       // the bridged net device.
       //
+      NS_LOG_DEBUG("getting MAC address");
       Address address = nd->GetAddress ();
       Mac48Address mac48Address = Mac48Address::ConvertFrom (address);
+      NS_LOG_DEBUG("got it!");
 
       //
       // The device-name is something we may want the system to make up in 

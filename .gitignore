@@ -1,0 +1,5 @@
+*.o
+*.po
+*.so
+build
+scratch

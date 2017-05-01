@@ -81,7 +81,9 @@ UanMacAloha::GetTypeId (void)
 Address
 UanMacAloha::GetMac48Address(void)
 {
-  return m_at.getM48(m_address);
+  Address addr = m_at.getM48(m_address);
+  NS_LOG_DEBUG("GetMac48Address: address is " << m_address << "; returning " << addr);
+  return addr;
 }
 
 Address
@@ -93,8 +95,11 @@ UanMacAloha::GetAddress (void)
 void
 UanMacAloha::SetAddress (Address addr)
 {
-  if (Mac48Address::IsMatchingType (addr))
+  NS_LOG_DEBUG("SetAddress to " << addr);
+  if (Mac48Address::IsMatchingType (addr)){
     m_address = m_at.translate(Mac48Address::ConvertFrom(addr));
+    NS_LOG_DEBUG("Translated: " << m_address);
+  }
   else
     m_address=UanAddress::ConvertFrom(addr);
 }

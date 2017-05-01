@@ -17,10 +17,19 @@
  */
 
 #include "uan-address-translator.h"
+#include "ns3/log.h"
 
+#include <iostream>
 
 namespace ns3 {
+
+  std::unordered_map<std::string,UanAddress> AddressTranslator::storeMap;
+  std::unordered_map<uint8_t,Mac48Address> AddressTranslator::getMap;
+
+  NS_LOG_COMPONENT_DEFINE ("AddressTranslator");
+
   AddressTranslator::AddressTranslator(){
+      NS_LOG_FUNCTION (this);
   }
 
   AddressTranslator::~AddressTranslator(){
@@ -29,6 +38,7 @@ namespace ns3 {
   }
 
   UanAddress AddressTranslator::translate(const Mac48Address addr){
+    NS_LOG_DEBUG("Tanslating Mac48Address: " << addr);
     /** Special case for broadcast */
     if (addr == Mac48Address ("ff:ff:ff:ff:ff:ff"))
       return UanAddress::GetBroadcast();
@@ -37,8 +47,10 @@ namespace ns3 {
     addr.CopyTo((uint8_t*) buff);
     std::string key = buff;
     std::unordered_map<std::string,UanAddress>::const_iterator got = storeMap.find (key);
-    if ( got != storeMap.end() )
+    if ( got != storeMap.end() ){
+      NS_LOG_DEBUG("Tanslated UanAddress: " << got->second);
       return got->second;
+    }
     
     UanAddress translated = UanAddress::Allocate();
     storeMap[key] = translated;
@@ -46,11 +58,13 @@ namespace ns3 {
     translated.CopyTo((uint8_t*)buff);
     getMap[(uint8_t)buff[0]] = addr;
 
+    NS_LOG_DEBUG("Tanslated UanAddress (generated): " << translated);
     return translated;
   }
 
 
   Mac48Address AddressTranslator::getM48(const UanAddress addr){
+    NS_LOG_DEBUG("Tanslating UanAddress: " << addr);
     if (addr == UanAddress::GetBroadcast())
         return Mac48Address ("ff:ff:ff:ff:ff:ff");
 
@@ -58,8 +72,10 @@ namespace ns3 {
     addr.CopyTo(&key);
     std::unordered_map<uint8_t,Mac48Address>::const_iterator got = getMap.find (key);
 
-    if ( got != getMap.end() )
+    if ( got != getMap.end() ){
+      NS_LOG_DEBUG("Tanslated Mac48Address: " << got->second);
       return got->second;
+    }
     
     Mac48Address translated = Mac48Address::Allocate();
     getMap[key] = translated;
@@ -68,6 +84,9 @@ namespace ns3 {
     translated.CopyTo((uint8_t*) buff);
     std::string trK = buff;
     storeMap[trK] = addr;
+
+    NS_LOG_DEBUG("Tanslated Mac48Address (generated): " << translated);
+    return translated;
   }
 
   void AddressTranslator::remove(Mac48Address addr){

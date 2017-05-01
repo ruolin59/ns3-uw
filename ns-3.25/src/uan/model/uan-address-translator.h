@@ -55,8 +55,8 @@ namespace ns3 {
 
 
     private:
-      std::unordered_map<std::string,UanAddress> storeMap;
-      std::unordered_map<uint8_t,Mac48Address> getMap;
+      static std::unordered_map<std::string,UanAddress> storeMap;
+      static std::unordered_map<uint8_t,Mac48Address> getMap;
   }; //class AddressTranslator
 
 } // namespace ns3

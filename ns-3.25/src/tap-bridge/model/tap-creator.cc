@@ -39,7 +39,7 @@
 
 #define TAP_MAGIC 95549
 
-static int gVerbose = 0; // Set to true to turn on logging messages.
+static int gVerbose = 1; // Set to true to turn on logging messages.
 
 #define LOG(msg) \
   if (gVerbose) \

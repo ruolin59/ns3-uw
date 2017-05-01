@@ -538,7 +538,9 @@ UanPhyGen::SendPacket (Ptr<Packet> pkt, uint32_t modeNum)
       return;
     }
 
-  UanTxMode txMode = GetMode (modeNum);
+  UanTxMode txMode = GetMode(0);
+  if (modeNum < m_modes.GetNModes ())
+    txMode = GetMode (modeNum);
 
   if (m_pktRx != 0)
     {

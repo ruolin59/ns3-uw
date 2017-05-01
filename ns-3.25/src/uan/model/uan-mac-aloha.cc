@@ -121,10 +121,16 @@ UanMacAloha::Enqueue (Ptr<Packet> packet, const Address &dest, uint16_t protocol
       header.SetSrc (src);
       header.SetDest (udest);
       header.SetType (0);
+      NS_LOG_DEBUG("Length type is" << protocolNumber);
+      header.SetLengthType (protocolNumber);
+      NS_LOG_DEBUG("Length type set to " << header.GetLengthType()<< " in header");
 
       packet->AddHeader (header);
-      m_phy->SendPacket (packet, 0);
-      //m_phy->SendPacket (packet, protocolNumber);
+
+      UanHeaderCommon check;
+      packet->PeekHeader(check);
+      NS_LOG_DEBUG("Length type is now " << check.GetLengthType());
+      m_phy->SendPacket (packet, protocolNumber);
       return true;
     }
   else
@@ -132,13 +138,14 @@ UanMacAloha::Enqueue (Ptr<Packet> packet, const Address &dest, uint16_t protocol
 }
 
 void
-UanMacAloha::SetForwardUpCb (Callback<void, Ptr<Packet>, const UanAddress& > cb)
+UanMacAloha::SetForwardUpCb (Callback<void, Ptr<Packet>, const UanAddress&> cb)
 {
   m_forUpCb = cb;
 }
 
+
 void
-UanMacAloha::SetPromiscCb (Callback<void, Ptr<Packet>, const Address&, const Address&> cb)
+UanMacAloha::SetPromiscCb (Callback<void, Ptr<Packet>, const Address&, const Address&, uint16_t, NetDevice::PacketType> cb)
 {
   m_promiscCb = cb;
 }
@@ -156,7 +163,7 @@ UanMacAloha::RxPacketGood (Ptr<Packet> pkt, double sinr, UanTxMode txMode)
 {
   UanHeaderCommon header;
   pkt->RemoveHeader (header);
-  NS_LOG_DEBUG ("Receiving packet from " << header.GetSrc () << " For " << header.GetDest ());
+  NS_LOG_DEBUG ("Receiving packet from " << header.GetSrc () << " For " << header.GetDest () << " m_address is " << m_address );
 
   if (header.GetDest () == GetAddress () || header.GetDest () == UanAddress::GetBroadcast ())
     {
@@ -164,7 +171,22 @@ UanMacAloha::RxPacketGood (Ptr<Packet> pkt, double sinr, UanTxMode txMode)
     }
   if (!m_promiscCb.IsNull())
   {
-     m_promiscCb (pkt, m_at.getM48(header.GetSrc()), m_at.getM48(header.GetDest()));
+    NetDevice::PacketType packetType;
+
+    if (header.GetDest () == UanAddress::GetBroadcast ())
+    {
+      packetType = NetDevice::PACKET_BROADCAST;
+    }
+    else if (header.GetDest () == m_address)
+    {
+      packetType = NetDevice::PACKET_HOST;
+    }
+    else
+    {
+      packetType = NetDevice::PACKET_OTHERHOST;
+    }
+     
+     m_promiscCb (pkt, m_at.getM48(header.GetSrc()), m_at.getM48(header.GetDest()), header.GetLengthType(), packetType);
   }
 
 }

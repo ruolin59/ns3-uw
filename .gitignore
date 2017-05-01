@@ -1,5 +1,7 @@
 *.o
 *.po
 *.so
+.lock-waf_linux2_build
 build/
 scratch/
+*.log

@@ -174,7 +174,7 @@ private:
    * \param dest The destination address.
    * \param type The packet type.
    */
-  virtual void PromiscForward (Ptr<Packet> pkt, const Address &src, const Address &dest);
+  virtual void PromiscForward (Ptr<Packet> pkt, const Address &src, const Address &dest, uint16_t protocol, NetDevice::PacketType packetType);
   
   /** \return The channel attached to this device. */
   Ptr<UanChannel> DoGetChannel (void) const;

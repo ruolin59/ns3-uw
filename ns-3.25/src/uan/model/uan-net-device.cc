@@ -394,11 +394,11 @@ UanNetDevice::SetPromiscReceiveCallback (PromiscReceiveCallback cb)
 }
 
 void
-UanNetDevice::PromiscForward (Ptr<Packet> pkt, const Address& src, const Address& dest)
+UanNetDevice::PromiscForward (Ptr<Packet> pkt, const Address& src, const Address& dest, uint16_t protocol, NetDevice::PacketType packetType)
 {
   NS_LOG_DEBUG ("Promiscuously forwarding packet up to application");
   //m_rxLogger (pkt, src);
-  m_promiscCallback (this, pkt, 0, src, dest, NetDevice::PACKET_BROADCAST);
+  m_promiscCallback (this, pkt, protocol, src, dest, packetType);
 }
 
 

@@ -27,6 +27,7 @@
 
 #include "ns3/nstime.h"
 #include "ns3/ptr.h"
+#include "ns3/net-device.h"
 
 namespace ns3 {
 
@@ -99,10 +100,10 @@ public:
    * \pname{packet} The packet.
    * \pname{address} The source address.
    * \pname{address} The destination address.
+   * \pname{uint16_t} The packet length type.
    * \pname{enum} The packet type.
    */
-  virtual void SetPromiscCb (Callback<void, Ptr<Packet>, const Address&, const Address&> cb);
-
+  virtual void SetPromiscCb (Callback<void, Ptr<Packet>, const Address&, const Address&, uint16_t, NetDevice::PacketType> cb);
   /**
    * Attach PHY layer to this MAC.
    *

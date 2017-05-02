@@ -115,26 +115,24 @@ UanMacAloha::Enqueue (Ptr<Packet> packet, const Address &dest, uint16_t protocol
 
   if (!m_phy->IsStateTx ())
     {
+      NS_LOG_DEBUG("UanMacAloha Enqueue: sending packet out");
       UanAddress src = UanAddress::ConvertFrom (GetAddress ());
       
       UanHeaderCommon header;
       header.SetSrc (src);
       header.SetDest (udest);
       header.SetType (0);
-      NS_LOG_DEBUG("Length type is" << protocolNumber);
       header.SetLengthType (protocolNumber);
-      NS_LOG_DEBUG("Length type set to " << header.GetLengthType()<< " in header");
 
       packet->AddHeader (header);
 
-      UanHeaderCommon check;
-      packet->PeekHeader(check);
-      NS_LOG_DEBUG("Length type is now " << check.GetLengthType());
       m_phy->SendPacket (packet, protocolNumber);
       return true;
     }
-  else
+  else{
+    NS_LOG_DEBUG("UanMacAloha Enqueue: phy is busy, packet may be dropped");
     return false;
+  }
 }
 
 void

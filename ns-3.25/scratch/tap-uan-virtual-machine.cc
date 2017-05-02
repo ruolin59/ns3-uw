@@ -129,8 +129,8 @@ main (int argc, char *argv[])
   //
   UanTxMode mode; 
   mode = UanTxModeFactory::CreateMode (UanTxMode::FSK, // Modulation type
-                                       203, // Data rate in BPS: 1152B / 5.67s
-                                       203, //
+                                       1624, // Data rate in BPS: 1152B / 5.67s
+                                       1624, //
                                        24000, // Center Frequency in Hz
                                        6000, // Bandwidth in Hz
                                        2, // Modulation constellation size, 2 for BPSK, 4 for QPSK 
@@ -196,9 +196,8 @@ main (int argc, char *argv[])
   tapBridge.Install (nodes.Get (1), devices.Get (1));
 
   //
-  // Run the simulation for ten minutes to give the user time to play around
   //
-  Simulator::Stop (Seconds (600.));
+  //Simulator::Stop (Seconds (600.));
   Simulator::Run ();
   Simulator::Destroy ();
 }

@@ -520,7 +520,7 @@ UanPhyGen::EnergyDepletionHandler ()
 void
 UanPhyGen::SendPacket (Ptr<Packet> pkt, uint32_t modeNum)
 {
-  NS_LOG_DEBUG ("PHY " << m_mac->GetAddress () << ": Transmitting packet");
+  NS_LOG_DEBUG ("PHY " << m_mac->GetAddress () << ": Transmitting packet of size " << pkt->GetSize());
   if (m_disabled)
     {
       NS_LOG_DEBUG ("Energy depleted, node cannot transmit any packet. Dropping.");
@@ -576,6 +576,7 @@ UanPhyGen::TxEndEvent ()
   else
     {
       m_state = IDLE;
+      NS_LOG_INFO ("Transmission ended, m_state set back to IDLE");
     }
   UpdatePowerConsumption (IDLE);
 }

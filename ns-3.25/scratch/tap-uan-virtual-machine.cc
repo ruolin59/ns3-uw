@@ -119,8 +119,9 @@ main (int argc, char *argv[])
     Ptr<UanPropModelBh> prop = 
       CreateObjectWithAttributes<UanPropModelBh> ("ConfigFile", StringValue("exbhconfig.cfg")); 
   #else 
-    Ptr<UanPropModelIdeal> prop = 
-      CreateObjectWithAttributes<UanPropModelIdeal> (); 
+    Ptr<UanPropModelThorp> prop = 
+      CreateObjectWithAttributes<UanPropModelThorp> (); 
+      prop->SetAttribute ("SpreadCoef", DoubleValue (1.5));
   #endif //UAN_PROP_BH_INSTALLED 
   chan->SetAttribute ("PropagationModel", PointerValue (prop));
 
@@ -170,7 +171,7 @@ main (int argc, char *argv[])
   MobilityHelper mobility;
   Ptr<ListPositionAllocator> positionAlloc = CreateObject<ListPositionAllocator> ();
   positionAlloc->Add (Vector (0.0, 0.0, 0.0));
-  positionAlloc->Add (Vector (5.0, 0.0, 0.0));
+  positionAlloc->Add (Vector (500.0, 0.0, 0.0));
   mobility.SetPositionAllocator (positionAlloc);
   mobility.SetMobilityModel ("ns3::ConstantPositionMobilityModel");
   mobility.Install (nodes);

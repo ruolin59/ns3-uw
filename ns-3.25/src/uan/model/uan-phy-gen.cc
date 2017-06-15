@@ -206,7 +206,7 @@ UanPhyCalcSinrFhFsk::CalcSinrDb (Ptr<Packet> pkt,
 /*************** UanPhyPerGenDefault definition *****************/
 UanPhyPerGenDefault::UanPhyPerGenDefault ()
 {
-
+    m_thresh = 0.5;
 }
 
 UanPhyPerGenDefault::~UanPhyPerGenDefault ()

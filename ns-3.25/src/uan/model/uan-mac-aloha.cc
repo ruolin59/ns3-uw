@@ -167,7 +167,7 @@ UanMacAloha::RxPacketGood (Ptr<Packet> pkt, double sinr, UanTxMode txMode)
     {
       m_forUpCb (pkt, header.GetSrc ());
     }
-  if (!m_promiscCb.IsNull())
+  if (pkt->ToString()!="" && !m_promiscCb.IsNull())
   {
     NetDevice::PacketType packetType;
 
